@@ -1,5 +1,6 @@
-const addBookButton = document.getElementById("addBookButton");
+const scanButton = document.getElementById("scanButton");
 
-addBookButton.addEventListener("click", () => {
-    alert("本の追加画面はこれから作ります！");
+// バーコード読取ボタンをクリックしたら登録画面に遷移
+scanButton.addEventListener("click", () => {
+    location.href = "add.html";
 });

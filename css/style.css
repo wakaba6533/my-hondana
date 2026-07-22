@@ -50,3 +50,39 @@ button:hover {
     color: gray;
     padding: 40px 0;
 }
+
+/* 登録画面 */
+form {
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+label {
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    font-weight: bold;
+
+}
+
+input {
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+}
+
+button + button {
+
+    background: gray;
+
+}
