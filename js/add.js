@@ -3,15 +3,27 @@ const cancelButton = document.getElementById("cancelButton");
 
 cancelButton.addEventListener("click", () => {
 
-    history.back();
+    location.href = "index.html";
 
 });
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    // STEP4でここをIndexedDB保存に変更する
+    const book = {
+
+        id: crypto.randomUUID(),
+
+        title: document.getElementById("title").value,
+
+        author: document.getElementById("author").value,
+
+        isbn: document.getElementById("isbn").value
+
+    };
+
+    await saveBook(book);
 
     location.href = "index.html";
 
