@@ -5,6 +5,7 @@ document.getElementById('devAddButton').addEventListener('click', () => {
 });
 // 開発用ここまで
 
+let books = [];
 const scanButton = document.getElementById('scanButton');
 
 scanButton.addEventListener('click', () => {
@@ -16,9 +17,17 @@ scanButton.addEventListener('click', () => {
 });
 
 async function loadBooks() {
-    const books = await getBooks();
+    books = await getBooks();
+    renderBooks();
+}
+
+function renderBooks() {
     const list = document.getElementById('bookList');
     list.innerHTML = '';
+    const keyword = document
+        .getElementById('searchInput')
+        .value.trim()
+        .toLowerCase();
 
     if (books.length === 0) {
         list.innerHTML = `
@@ -29,7 +38,15 @@ async function loadBooks() {
         return;
     }
 
-    books.forEach((book) => {
+    const filteredBooks = books.filter((book) => {
+        return (
+            book.title?.toLowerCase().includes(keyword) ||
+            book.author?.toLowerCase().includes(keyword) ||
+            book.isbn?.includes(keyword)
+        );
+    });
+
+    filteredBooks.forEach((book) => {
         const div = document.createElement('div');
         div.className = 'book-card';
         div.dataset.id = book.id;
@@ -51,5 +68,7 @@ async function loadBooks() {
         list.appendChild(div);
     });
 }
+
+document.getElementById('searchInput').addEventListener('input', renderBooks);
 
 loadBooks();
