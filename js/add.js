@@ -5,6 +5,8 @@ const cancelButton = document.getElementById('cancelButton');
 
 if (isbn) {
     document.getElementById('isbn').value = isbn;
+
+    // STEP6でここにGoogle Books API呼び出しを書く
 }
 
 cancelButton.addEventListener('click', () => {
