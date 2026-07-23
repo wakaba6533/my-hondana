@@ -2,6 +2,7 @@ const params = new URLSearchParams(location.search);
 const isbn = params.get('isbn');
 const form = document.getElementById('bookForm');
 const cancelButton = document.getElementById('cancelButton');
+const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
 
 if (isbn) {
     document.getElementById('isbn').value = isbn;
@@ -12,10 +13,20 @@ async function loadBookInfo(isbn) {
     try {
         const response = await fetch(
             `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
+            {
+                headers: {
+                    'x-goog-api-key': API_KEY,
+                },
+            },
         );
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
         const data = await response.json();
         if (!data.items || data.items.length === 0) {
+            alert('本の情報が見つかりませんでした。');
             return;
         }
 
@@ -33,7 +44,7 @@ async function loadBookInfo(isbn) {
         }
     } catch (error) {
         console.error(error);
-        alert('もう一回やり直してくれよな！');
+        alert('Google Books APIから本の情報を取得できませんでした。');
     }
 }
 
