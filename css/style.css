@@ -32,8 +32,7 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-
-    background: #4CAF50;
+    background: #4caf50;
     color: white;
 }
 
@@ -53,62 +52,41 @@ button:hover {
 
 /* 登録画面 */
 form {
-
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 }
 
 label {
-
     display: flex;
     flex-direction: column;
     gap: 8px;
-
     font-weight: bold;
-
 }
 
 input {
-
     padding: 12px;
-
     border: 1px solid #ccc;
     border-radius: 8px;
-
     font-size: 1rem;
-
 }
 
 button + button {
-
     background: gray;
-
 }
 
 .book-card {
-
     background: white;
-
     padding: 16px;
-
     margin-bottom: 12px;
-
     border-radius: 10px;
-
     border: 1px solid #ddd;
-
 }
 
 .book-card h3 {
-
     margin-bottom: 8px;
-
 }
 
-#deleteButton{
-
-    background:#d9534f;
-
+#deleteButton {
+    background: #d9534f;
 }
