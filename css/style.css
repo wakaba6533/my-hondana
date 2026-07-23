@@ -106,3 +106,9 @@ button + button {
     margin-bottom: 8px;
 
 }
+
+#deleteButton{
+
+    background:#d9534f;
+
+}

@@ -23,7 +23,7 @@ form.addEventListener("submit", async (event) => {
 
     };
 
-    await saveBook(book);
+    await createBook(book);
 
     location.href = "index.html";
 

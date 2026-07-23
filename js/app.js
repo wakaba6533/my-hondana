@@ -32,11 +32,19 @@ async function loadBooks() {
 
         div.className = "book-card";
 
+        div.dataset.id = book.id;
+
         div.innerHTML = `
             <h3>${book.title}</h3>
             <p>${book.author}</p>
             <small>${book.isbn}</small>
         `;
+
+        div.addEventListener("click", () => {
+
+            location.href = `detail.html?id=${book.id}`;
+
+        });
 
         list.appendChild(div);
 

@@ -30,7 +30,7 @@ function openDatabase() {
 
 }
 
-async function saveBook(book) {
+async function createBook(book) {
 
     const db = await openDatabase();
 
@@ -61,6 +61,62 @@ async function getBooks() {
         request.onsuccess = () => resolve(request.result);
 
         request.onerror = () => reject(request.error);
+
+    });
+
+}
+
+async function getBook(id) {
+
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+
+        const tx = db.transaction(STORE_NAME, "readonly");
+
+        const request = tx
+            .objectStore(STORE_NAME)
+            .get(id);
+
+        request.onsuccess = () => resolve(request.result);
+
+        request.onerror = () => reject(request.error);
+
+    });
+
+}
+
+async function updateBook(book) {
+
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+
+        const tx = db.transaction(STORE_NAME, "readwrite");
+
+        tx.objectStore(STORE_NAME).put(book);
+
+        tx.oncomplete = () => resolve();
+
+        tx.onerror = () => reject(tx.error);
+
+    });
+
+}
+
+async function deleteBook(id) {
+
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+
+        const tx = db.transaction(STORE_NAME, "readwrite");
+
+        tx.objectStore(STORE_NAME).delete(id);
+
+        tx.oncomplete = () => resolve();
+
+        tx.onerror = () => reject(tx.error);
 
     });
 
