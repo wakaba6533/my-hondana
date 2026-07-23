@@ -18,8 +18,8 @@ async function load() {
     }
 }
 
-backButton.addEventListener('click', () => {
-    location.href = 'index.html';
+editButton.addEventListener('click', () => {
+    location.href = `add.html?id=${id}`;
 });
 
 deleteButton.addEventListener('click', async () => {
@@ -31,5 +31,9 @@ deleteButton.addEventListener('click', async () => {
 
     await deleteBook(id);
 
+    location.href = 'index.html';
+});
+
+backButton.addEventListener('click', () => {
     location.href = 'index.html';
 });

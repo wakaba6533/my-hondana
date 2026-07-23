@@ -49,7 +49,8 @@ async function getBook(id) {
 
     return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readonly');
-        const request = tx.objectStore(STORE_NAME).get(id);
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.get(id);
 
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);

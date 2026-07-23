@@ -1,12 +1,34 @@
 const params = new URLSearchParams(location.search);
 const isbn = params.get('isbn');
 const form = document.getElementById('bookForm');
+const editId = params.get('id');
 const cancelButton = document.getElementById('cancelButton');
 const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
+
+if (editId) {
+    loadBook(editId);
+}
 
 if (isbn) {
     document.getElementById('isbn').value = isbn;
     loadBookInfo(isbn);
+}
+
+async function loadBook(id) {
+    const book = await getBook(id);
+    if (!book) {
+        return;
+    }
+
+    document.getElementById('title').value = book.title;
+    document.getElementById('author').value = book.author;
+    document.getElementById('publisher').value = book.publisher;
+    document.getElementById('isbn').value = book.isbn;
+    if (book.thumbnail) {
+        const img = document.getElementById('thumbnail');
+        img.src = book.thumbnail;
+        img.style.display = 'block';
+    }
 }
 
 async function loadBookInfo(isbn) {
