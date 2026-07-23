@@ -1,3 +1,10 @@
+// 開発用
+const DEV_ISBN = '9784300116012';
+document.getElementById('devAddButton').addEventListener('click', () => {
+    location.href = `add.html?isbn=${DEV_ISBN}`;
+});
+// 開発用ここまで
+
 const scanButton = document.getElementById('scanButton');
 
 scanButton.addEventListener('click', () => {
