@@ -1,7 +1,11 @@
 const scanButton = document.getElementById('scanButton');
 
 scanButton.addEventListener('click', () => {
-    location.href = 'add.html';
+    startScanner();
+
+    document
+        .getElementById('closeScanner')
+        .addEventListener('click', stopScanner);
 });
 
 async function loadBooks() {

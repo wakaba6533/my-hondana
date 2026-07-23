@@ -1,5 +1,11 @@
+const params = new URLSearchParams(location.search);
+const isbn = params.get('isbn');
 const form = document.getElementById('bookForm');
 const cancelButton = document.getElementById('cancelButton');
+
+if (isbn) {
+    document.getElementById('isbn').value = isbn;
+}
 
 cancelButton.addEventListener('click', () => {
     location.href = 'index.html';
