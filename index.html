@@ -11,12 +11,15 @@
             <h1>📚 本棚</h1>
         </header>
         <main>
-            <label for="searchInput">検索</label>
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="タイトル・著者・ISBNで検索"
-            />
+            <div class="toolbar">
+                <input type="search" id="searchInput" placeholder="検索" />
+                <select id="sortSelect">
+                    <option value="newest">新しい順</option>
+                    <option value="oldest">古い順</option>
+                    <option value="title">タイトル順</option>
+                    <option value="author">著者順</option>
+                </select>
+            </div>
             <button id="scanButton">📷 バーコード読取</button>
             <button id="devAddButton">🧪 開発用追加</button>
             <section id="bookList">

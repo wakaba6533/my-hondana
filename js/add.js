@@ -4,6 +4,7 @@ const form = document.getElementById('bookForm');
 const editId = params.get('id');
 const cancelButton = document.getElementById('cancelButton');
 const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
+let editingBook = null;
 
 if (editId) {
     document.querySelector('h1').textContent = '本を編集';
@@ -22,6 +23,8 @@ async function loadBook(id) {
     if (!book) {
         return;
     }
+
+    editingBook = book;
 
     document.getElementById('title').value = book.title;
     document.getElementById('author').value = book.author;
@@ -93,6 +96,7 @@ form.addEventListener('submit', async (event) => {
         await updateBook(book);
     } else {
         book.id = crypto.randomUUID();
+        book.createdAt = Date.now();
         await createBook(book);
     }
 

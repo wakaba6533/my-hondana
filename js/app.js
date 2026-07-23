@@ -29,6 +29,25 @@ function renderBooks() {
         .value.trim()
         .toLowerCase();
 
+    const sortType = document.getElementById('sortSelect').value;
+    const sortedBooks = [...books];
+    switch (sortType) {
+        case 'newest':
+            sortedBooks.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+            break;
+        case 'oldest':
+            sortedBooks.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
+            break;
+        case 'title':
+            sortedBooks.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+            break;
+        case 'author':
+            sortedBooks.sort((a, b) =>
+                (a.author ?? '').localeCompare(b.author ?? '', 'ja'),
+            );
+            break;
+    }
+
     if (books.length === 0) {
         list.innerHTML = `
             <p class="empty">
@@ -38,7 +57,7 @@ function renderBooks() {
         return;
     }
 
-    const filteredBooks = books.filter((book) => {
+    const filteredBooks = sortedBooks.filter((book) => {
         return (
             book.title?.toLowerCase().includes(keyword) ||
             book.author?.toLowerCase().includes(keyword) ||
@@ -70,5 +89,6 @@ function renderBooks() {
 }
 
 document.getElementById('searchInput').addEventListener('input', renderBooks);
+document.getElementById('sortSelect').addEventListener('change', renderBooks);
 
 loadBooks();

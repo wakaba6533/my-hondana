@@ -122,3 +122,37 @@ button + button {
     display: block;
     margin: 16px auto;
 }
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.toolbar input {
+    flex: 1;
+}
+
+.toolbar select {
+    width: 145px;
+}
+
+.toolbar input,
+.toolbar select {
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d8cbb3;
+    border-radius: 12px;
+    background: #fffdf6;
+    font-size: 15px;
+    color: #333;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.2s;
+}
+
+.toolbar input:focus,
+.toolbar select:focus {
+    border-color: #b88c5a;
+    box-shadow: 0 0 0 3px rgba(184, 140, 90, 0.15);
+}
