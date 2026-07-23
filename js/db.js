@@ -61,11 +61,12 @@ async function updateBook(book) {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = db.transaction('books', 'readwrite');
+        const store = tx.objectStore('books');
+        const request = store.put(book);
 
-        tx.objectStore(STORE_NAME).put(book);
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
     });
 }
 

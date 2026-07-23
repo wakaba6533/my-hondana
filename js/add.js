@@ -6,6 +6,9 @@ const cancelButton = document.getElementById('cancelButton');
 const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
 
 if (editId) {
+    document.querySelector('h1').textContent = '本を編集';
+    document.getElementById('saveButton').textContent = '更新';
+
     loadBook(editId);
 }
 
@@ -78,7 +81,6 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const book = {
-        id: crypto.randomUUID(),
         title: document.getElementById('title').value,
         author: document.getElementById('author').value,
         publisher: document.getElementById('publisher').value,
@@ -86,7 +88,13 @@ form.addEventListener('submit', async (event) => {
         thumbnail: document.getElementById('thumbnail').src,
     };
 
-    await createBook(book);
+    if (editId) {
+        book.id = editId;
+        await updateBook(book);
+    } else {
+        book.id = crypto.randomUUID();
+        await createBook(book);
+    }
 
     location.href = 'index.html';
 });
