@@ -110,3 +110,15 @@ button + button {
     padding: 16px;
     border-radius: 12px;
 }
+
+.thumb {
+    width: 70px;
+    border-radius: 6px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+#thumbnail {
+    display: block;
+    margin: 16px auto;
+}

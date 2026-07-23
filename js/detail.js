@@ -10,7 +10,12 @@ async function load() {
 
     document.getElementById('title').textContent = book.title;
     document.getElementById('author').textContent = book.author;
+    document.getElementById('publisher').textContent = book.publisher ?? '';
     document.getElementById('isbn').textContent = book.isbn;
+
+    if (book.thumbnail) {
+        document.getElementById('thumbnail').src = book.thumbnail;
+    }
 }
 
 backButton.addEventListener('click', () => {

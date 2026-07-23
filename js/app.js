@@ -27,9 +27,14 @@ async function loadBooks() {
         div.className = 'book-card';
         div.dataset.id = book.id;
         div.innerHTML = `
+            ${
+                book.thumbnail
+                    ? `<img src="${book.thumbnail}" class="thumb">`
+                    : ''
+            }
             <h3>${book.title}</h3>
             <p>${book.author}</p>
-            <small>${book.isbn}</small>
+            <small>${book.publisher ?? ''}</small>
         `;
 
         div.addEventListener('click', () => {
