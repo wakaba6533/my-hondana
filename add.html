@@ -10,6 +10,14 @@
         <header>
             <h1>本を登録</h1>
         </header>
+        <div id="scannerModal" class="hidden">
+            <div class="scanner-container">
+                <div id="reader"></div>
+                <button type="button" id="closeScanner">
+                    閉じる
+                </button>
+            </div>
+        </div>
         <main>
             <form id="bookForm">
                 <label>
@@ -26,7 +34,11 @@
                 </label>
                 <label>
                     ISBN
-                    <input type="text" id="isbn" />
+                    <div class="isbn-row">
+                        <input type="text" id="isbn" />
+                        <button type="button" id="scanButton">📷</button>
+                        <button type="button" id="fetchButton">🔍</button>
+                    </div>
                 </label>
                 <img
                     id="thumbnail"
@@ -38,6 +50,8 @@
                 <button type="button" id="cancelButton">キャンセル</button>
             </form>
         </main>
+        <script src="https://unpkg.com/html5-qrcode"></script>
+        <script src="js/scanner.js"></script>
         <script src="js/db.js"></script>
         <script src="js/book-api.js"></script>
         <script src="js/add.js"></script>

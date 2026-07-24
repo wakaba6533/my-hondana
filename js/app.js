@@ -1,29 +1,11 @@
-// 開発用
-const DEV_ISBN = '9784300116012';
-document.getElementById('devAddButton').addEventListener('click', () => {
-    location.href = `add.html?isbn=${DEV_ISBN}`;
-});
-// 開発用ここまで
-
-const manualAddButton = document.getElementById('manualAddButton');
-manualAddButton.addEventListener('click', () => {
-    location.href = 'add.html';
-});
-
 let books = [];
-const scanButton = document.getElementById('scanButton');
-
-scanButton.addEventListener('click', () => {
-    startScanner();
-
-    document
-        .getElementById('closeScanner')
-        .addEventListener('click', stopScanner);
-});
-
 let sortKey = 'createdAt';
 let sortOrder = 'desc';
 let statusFilter = 'owned';
+
+document.getElementById('addButton').addEventListener('click', () => {
+    location.href = 'add.html';
+});
 
 async function loadBooks() {
     books = await getBooks();

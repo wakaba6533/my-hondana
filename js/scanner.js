@@ -17,9 +17,13 @@ async function startScanner() {
 }
 
 async function onScanSuccess(decodedText) {
-    await html5QrCode.stop();
+    document.getElementById('isbn').value = decodedText;
 
-    location.href = `add.html?isbn=${encodeURIComponent(decodedText)}`;
+    await stopScanner();
+
+    if (window.loadBookInfo) {
+        window.loadBookInfo(decodedText);
+    }
 }
 
 async function stopScanner() {

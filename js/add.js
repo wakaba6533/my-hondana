@@ -1,21 +1,17 @@
 const params = new URLSearchParams(location.search);
-const isbn = params.get('isbn');
+const isbnInput = document.getElementById('isbn');
 const form = document.getElementById('bookForm');
 const editId = params.get('id');
 const cancelButton = document.getElementById('cancelButton');
+const fetchButton = document.getElementById('fetchButton');
 const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
 let editingBook = null;
+let lastFetchedIsbn = '';
 
 if (editId) {
     document.querySelector('h1').textContent = '本を編集';
     document.getElementById('saveButton').textContent = '更新';
-
     loadBook(editId);
-}
-
-if (isbn) {
-    document.getElementById('isbn').value = isbn;
-    loadBookInfo(isbn);
 }
 
 async function loadBook(id) {
@@ -38,6 +34,19 @@ async function loadBook(id) {
 }
 
 async function loadBookInfo(isbn) {
+    isbn = isbn.trim();
+    if (!isbn) {return;}
+    if (isbn === lastFetchedIsbn) {return;}
+    lastFetchedIsbn = isbn;
+
+    // 一度表示内容をクリア
+    document.getElementById('title').value = '';
+    document.getElementById('author').value = '';
+    document.getElementById('publisher').value = '';
+    const img = document.getElementById('thumbnail');
+    img.removeAttribute('src');
+    img.style.display = 'none';
+
     try {
         const response = await fetch(
             `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
@@ -54,6 +63,7 @@ async function loadBookInfo(isbn) {
 
         const data = await response.json();
         if (!data.items || data.items.length === 0) {
+            lastFetchedIsbn = '';
             alert('本の情報が見つかりませんでした。');
             return;
         }
@@ -71,13 +81,31 @@ async function loadBookInfo(isbn) {
             img.style.display = 'block';
         }
     } catch (error) {
+        lastFetchedIsbn = '';
         console.error(error);
         alert('Google Books APIから本の情報を取得できませんでした。');
     }
 }
+window.loadBookInfo = loadBookInfo;
 
 cancelButton.addEventListener('click', () => {
     location.href = 'index.html';
+});
+
+fetchButton.addEventListener('click', () => {
+    const isbn = document.getElementById('isbn').value.trim();
+    if (!isbn) {
+        alert('ISBNを入力してから検索してください');
+        return;
+    }
+    loadBookInfo(isbn);
+});
+
+isbnInput.addEventListener('blur', () => {
+    const isbn = isbnInput.value.trim();
+    if (isbn.length >= 10) {
+        loadBookInfo(isbn);
+    }
 });
 
 form.addEventListener('submit', async (event) => {
@@ -106,4 +134,12 @@ form.addEventListener('submit', async (event) => {
     }
 
     location.href = 'index.html';
+});
+
+const scanButton = document.getElementById('scanButton');
+scanButton.addEventListener('click', () => {
+    startScanner();
+    document
+        .getElementById('closeScanner')
+        .addEventListener('click', stopScanner);
 });

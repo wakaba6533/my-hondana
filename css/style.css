@@ -24,8 +24,8 @@
 }
 
 .add-buttons button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     border-radius: 50%;
     font-size: 18px;
@@ -117,6 +117,24 @@ input {
 
 #scannerModal.show {
     display: flex;
+}
+
+.isbn-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.isbn-row input {
+    flex: 1;
+}
+
+.isbn-row button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    flex-shrink: 0;
+    border-radius: 10px;
 }
 
 .scanner-container {
