@@ -30,6 +30,7 @@ function renderBooks() {
         .toLowerCase();
 
     const sortType = document.getElementById('sortSelect').value;
+    const statusType = document.getElementById('statusSelect').value;
     const sortedBooks = [...books];
     switch (sortType) {
         case 'newest':
@@ -58,11 +59,15 @@ function renderBooks() {
     }
 
     const filteredBooks = sortedBooks.filter((book) => {
-        return (
+        const matchesKeyword =
             book.title?.toLowerCase().includes(keyword) ||
             book.author?.toLowerCase().includes(keyword) ||
-            book.isbn?.includes(keyword)
-        );
+            book.isbn?.includes(keyword);
+        const matchesStatus =
+            statusType === 'all' ||
+            (statusType === 'owned' && !book.sold) ||
+            (statusType === 'sold' && book.sold);
+        return matchesKeyword && matchesStatus;
     });
 
     filteredBooks.forEach((book) => {
@@ -91,5 +96,6 @@ function renderBooks() {
 
 document.getElementById('searchInput').addEventListener('input', renderBooks);
 document.getElementById('sortSelect').addEventListener('change', renderBooks);
+document.getElementById('statusSelect').addEventListener('change', renderBooks);
 
 loadBooks();
