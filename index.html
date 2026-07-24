@@ -18,12 +18,6 @@
         <main>
             <div class="toolbar">
                 <input type="search" id="searchInput" placeholder="検索" />
-                <select id="sortSelect">
-                    <option value="newest">新しい順</option>
-                    <option value="oldest">古い順</option>
-                    <option value="title">タイトル順</option>
-                    <option value="author">著者順</option>
-                </select>
                 <select id="statusSelect">
                     <option value="owned">所有中</option>
                     <option value="sold">売却済み</option>
@@ -33,10 +27,10 @@
             <div class="table-container">
                 <div class="book-header">
                     <div></div>
-                    <div>タイトル</div>
-                    <div>著者</div>
+                    <div class="sortable" data-sort="title">タイトル</div>
+                    <div class="sortable" data-sort="author">著者</div>
                     <div>状態</div>
-                    <div>更新日</div>
+                    <div class="sortable" data-sort="createdAt">更新日</div>
                 </div>
                 <div id="bookList">
                     <p class="empty">まだ本はありません</p>

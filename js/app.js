@@ -21,6 +21,9 @@ scanButton.addEventListener('click', () => {
         .addEventListener('click', stopScanner);
 });
 
+let sortKey = 'createdAt';
+let sortOrder = 'desc';
+
 async function loadBooks() {
     books = await getBooks();
     renderBooks();
@@ -34,25 +37,20 @@ function renderBooks() {
         .value.trim()
         .toLowerCase();
 
-    const sortType = document.getElementById('sortSelect').value;
-    const statusType = document.getElementById('statusSelect').value;
     const sortedBooks = [...books];
-    switch (sortType) {
-        case 'newest':
-            sortedBooks.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
-            break;
-        case 'oldest':
-            sortedBooks.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
-            break;
-        case 'title':
-            sortedBooks.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
-            break;
-        case 'author':
-            sortedBooks.sort((a, b) =>
-                (a.author ?? '').localeCompare(b.author ?? '', 'ja'),
-            );
-            break;
-    }
+    sortedBooks.sort((a, b) => {
+        let result = 0;
+        if (sortKey === 'title') {
+            result = (a.title ?? '').localeCompare(b.title ?? '', 'ja');
+        }
+        if (sortKey === 'author') {
+            result = (a.author ?? '').localeCompare(b.author ?? '', 'ja');
+        }
+        if (sortKey === 'createdAt') {
+            result = (a.createdAt ?? 0) - (b.createdAt ?? 0);
+        }
+        return sortOrder === 'asc' ? result : -result;
+    });
 
     if (books.length === 0) {
         list.innerHTML = `
@@ -63,6 +61,7 @@ function renderBooks() {
         return;
     }
 
+    const statusType = document.getElementById('statusSelect').value;
     const filteredBooks = sortedBooks.filter((book) => {
         const matchesKeyword =
             book.title?.toLowerCase().includes(keyword) ||
@@ -113,8 +112,32 @@ function renderBooks() {
     });
 }
 
+function updateSortIndicators() {
+    document.querySelectorAll('.sortable').forEach((header) => {
+        const key = header.dataset.sort;
+        const text = header.textContent.replace(/[▲▼]/g, '');
+        if (key === sortKey) {
+            header.textContent = text + (sortOrder === 'asc' ? ' ▲' : ' ▼');
+        } else {
+            header.textContent = text;
+        }
+    });
+}
+
 document.getElementById('searchInput').addEventListener('input', renderBooks);
-document.getElementById('sortSelect').addEventListener('change', renderBooks);
 document.getElementById('statusSelect').addEventListener('change', renderBooks);
+document.querySelectorAll('.sortable').forEach((header) => {
+    header.addEventListener('click', () => {
+        const key = header.dataset.sort;
+        if (sortKey === key) {
+            sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortKey = key;
+            sortOrder = 'asc';
+        }
+        updateSortIndicators();
+        renderBooks();
+    });
+});
 
 loadBooks();

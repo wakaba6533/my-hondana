@@ -231,3 +231,12 @@ input {
 .book-header > div {
     padding: 0 8px;
 }
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortable:hover {
+    background: #fff7e8;
+}
