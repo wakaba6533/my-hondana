@@ -18,18 +18,12 @@
         <main>
             <div class="toolbar">
                 <input type="search" id="searchInput" placeholder="検索" />
-                <select id="statusSelect">
-                    <option value="owned">所有中</option>
-                    <option value="sold">売却済み</option>
-                    <option value="all">すべて</option>
-                </select>
             </div>
             <div class="table-container">
                 <div class="book-header">
-                    <div></div>
+                    <div id="statusHeader" class="status-filter">📗</div>
                     <div class="sortable" data-sort="title">タイトル</div>
                     <div class="sortable" data-sort="author">著者</div>
-                    <div>状態</div>
                     <div class="sortable" data-sort="createdAt">更新日</div>
                 </div>
                 <div id="bookList">

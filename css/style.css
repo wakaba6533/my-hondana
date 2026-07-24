@@ -193,8 +193,8 @@ input {
 
 .book-header {
     display: grid;
-    grid-template-columns: 60px 280px 100px 90px 90px;
-    min-width: 620px;
+    grid-template-columns: 30px 280px 120px 90px;
+    min-width: 520px;
     padding: 8px 0;
     font-weight: bold;
     border-bottom: 2px solid #d8cbb3;
@@ -207,9 +207,9 @@ input {
 
 .book-row {
     display: grid;
-    grid-template-columns: 60px 280px 100px 90px 90px;
-    min-width: 620px;
-    height: 64px;
+    grid-template-columns: 30px 280px 120px 90px;
+    min-width: 520px;
+    height: 30px;
     align-items: center;
     border-bottom: 1px solid #eee;
     cursor: pointer;
@@ -218,6 +218,12 @@ input {
 
 .book-row .title {
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-row .author {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

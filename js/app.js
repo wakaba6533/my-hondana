@@ -23,6 +23,7 @@ scanButton.addEventListener('click', () => {
 
 let sortKey = 'createdAt';
 let sortOrder = 'desc';
+let statusFilter = 'owned';
 
 async function loadBooks() {
     books = await getBooks();
@@ -61,16 +62,15 @@ function renderBooks() {
         return;
     }
 
-    const statusType = document.getElementById('statusSelect').value;
     const filteredBooks = sortedBooks.filter((book) => {
         const matchesKeyword =
             book.title?.toLowerCase().includes(keyword) ||
             book.author?.toLowerCase().includes(keyword) ||
             book.isbn?.includes(keyword);
         const matchesStatus =
-            statusType === 'all' ||
-            (statusType === 'owned' && !book.sold) ||
-            (statusType === 'sold' && book.sold);
+            statusFilter === 'all' ||
+            (statusFilter === 'owned' && !book.sold) ||
+            (statusFilter === 'sold' && book.sold);
         return matchesKeyword && matchesStatus;
     });
 
@@ -83,25 +83,10 @@ function renderBooks() {
             : '';
 
         div.innerHTML = `
-            <div class="thumbnail">
-                ${
-                    book.thumbnail
-                        ? `<img src="${book.thumbnail}" class="thumb">`
-                        : `<img src="images/no_image.jpg" class="thumb">`
-                }
-            </div>
-            <div class="title">
-                ${book.title ?? ''}
-            </div>
-            <div class="author">
-                ${book.author ?? ''}
-            </div>
-            <div class="status">
-                ${book.sold ? '📕 売却済み' : '📗 所有中'}
-            </div>
-            <div class="created-date">
-                ${createdDate}
-            </div>
+            <div class="status">${book.sold ? '📕' : '📗'}</div>
+            <div class="title">${book.title ?? ''}</div>
+            <div class="author">${book.author ?? ''}</div>
+            <div class="created-date">${createdDate}</div>
         `;
 
         div.addEventListener('click', () => {
@@ -124,8 +109,38 @@ function updateSortIndicators() {
     });
 }
 
+function updateStatusIndicator() {
+    const statusHeader = document.getElementById('statusHeader');
+    switch (statusFilter) {
+        case 'owned':
+            statusHeader.textContent = '📗';
+            break;
+        case 'sold':
+            statusHeader.textContent = '📕';
+            break;
+        case 'all':
+            statusHeader.textContent = '📚';
+            break;
+    }
+}
+
+const statusHeader = document.getElementById('statusHeader');
+statusHeader.addEventListener('click', () => {
+    switch (statusFilter) {
+        case 'owned':
+            statusFilter = 'sold';
+            break;
+        case 'sold':
+            statusFilter = 'all';
+            break;
+        default:
+            statusFilter = 'owned';
+    }
+    updateStatusIndicator();
+    renderBooks();
+});
+
 document.getElementById('searchInput').addEventListener('input', renderBooks);
-document.getElementById('statusSelect').addEventListener('change', renderBooks);
 document.querySelectorAll('.sortable').forEach((header) => {
     header.addEventListener('click', () => {
         const key = header.dataset.sort;
@@ -140,4 +155,6 @@ document.querySelectorAll('.sortable').forEach((header) => {
     });
 });
 
+updateSortIndicators();
+updateStatusIndicator();
 loadBooks();
