@@ -20,7 +20,7 @@ h1 {
 }
 
 main {
-    max-width: 600px;
+    max-width: 900px;
     margin: auto;
     padding: 16px;
 }
@@ -75,18 +75,6 @@ button + button {
     background: gray;
 }
 
-.book-card {
-    background: white;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-}
-
-.book-card h3 {
-    margin-bottom: 8px;
-}
-
 #deleteButton {
     background: #d9534f;
 }
@@ -111,11 +99,11 @@ button + button {
     border-radius: 12px;
 }
 
-.thumb {
-    width: 70px;
-    border-radius: 6px;
-    display: block;
-    margin-bottom: 8px;
+.thumbnail img {
+    width: 40px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 #thumbnail {
@@ -168,5 +156,51 @@ button + button {
 }
 
 .book-card.sold {
-    opacity: 0.65;
+    opacity: 0.6;
+}
+
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.book-header {
+    display: grid;
+    grid-template-columns: 60px 280px 100px 90px 90px;
+    min-width: 620px;
+    padding: 8px 0;
+    font-weight: bold;
+    border-bottom: 2px solid #d8cbb3;
+    color: #6b5845;
+    background: #fffdf6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.book-row {
+    display: grid;
+    grid-template-columns: 60px 280px 100px 90px 90px;
+    min-width: 620px;
+    height: 64px;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.book-row .title {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-row:hover {
+    background: #fffaf0;
+}
+
+.book-row > div,
+.book-header > div {
+    padding: 0 8px;
 }

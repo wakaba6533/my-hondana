@@ -72,18 +72,28 @@ function renderBooks() {
 
     filteredBooks.forEach((book) => {
         const div = document.createElement('div');
-        div.className = book.sold ? 'book-card sold' : 'book-card';
+        div.className = book.sold ? 'book-row sold' : 'book-row';
         div.dataset.id = book.id;
+        const createdDate = book.createdAt
+            ? new Date(book.createdAt).toLocaleDateString('ja-JP')
+            : '';
+
         div.innerHTML = `
-            ${
-                book.thumbnail
-                    ? `<img src="${book.thumbnail}" class="thumb">`
-                    : ''
-            }
-            <h3>${book.title}</h3>
-            <p>${book.author}</p>
-            ${book.sold ? '<span class="sold-badge">📕 売却済み</span>' : ''}
-            <small>${book.publisher ?? ''}</small>
+            <div class="thumbnail">
+                ${book.thumbnail ? `<img src="${book.thumbnail}">` : ''}
+            </div>
+            <div class="title">
+                ${book.title ?? ''}
+            </div>
+            <div class="author">
+                ${book.author ?? ''}
+            </div>
+            <div class="status">
+                ${book.sold ? '📕 売却済み' : '📗 所有中'}
+            </div>
+            <div class="created-date">
+                ${createdDate}
+            </div>
         `;
 
         div.addEventListener('click', () => {

@@ -27,9 +27,18 @@
             </div>
             <button id="scanButton">📷 バーコード読取</button>
             <button id="devAddButton">🧪 開発用追加</button>
-            <section id="bookList">
-                <p class="empty">まだ本はありません</p>
-            </section>
+            <div class="table-container">
+                <div class="book-header">
+                    <div>表紙</div>
+                    <div>タイトル</div>
+                    <div>作者</div>
+                    <div>状態</div>
+                    <div>登録日</div>
+                </div>
+                <div id="bookList">
+                    <p class="empty">まだ本はありません</p>
+                </div>
+            </div>
             <div id="scannerModal" class="hidden">
                 <div class="scanner-container">
                     <div id="reader"></div>
