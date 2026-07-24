@@ -156,3 +156,17 @@ button + button {
     border-color: #b88c5a;
     box-shadow: 0 0 0 3px rgba(184, 140, 90, 0.15);
 }
+
+.sold-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 6px 0;
+    border-radius: 999px;
+    background: #eee6d8;
+    color: #8a6d46;
+    font-size: 0.85rem;
+}
+
+.book-card.sold {
+    opacity: 0.65;
+}

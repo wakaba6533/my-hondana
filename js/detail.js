@@ -1,6 +1,8 @@
 const params = new URLSearchParams(location.search);
 const id = params.get('id');
+const editButton = document.getElementById('editButton');
 const deleteButton = document.getElementById('deleteButton');
+const sellButton = document.getElementById('sellButton');
 const backButton = document.getElementById('backButton');
 
 load();
@@ -16,6 +18,21 @@ async function load() {
     if (book.thumbnail) {
         document.getElementById('thumbnail').src = book.thumbnail;
     }
+
+    const soldInfo = document.getElementById('soldInfo');
+    if (book.sold) {
+        const date = new Date(book.soldAt);
+        soldInfo.innerHTML = `
+            <p class="sold-badge">
+                📕 売却済み
+            </p>
+            <p>
+                売却日：
+                ${date.toLocaleDateString('ja-JP')}
+            </p>
+        `;
+        sellButton.style.display = 'none';
+    }
 }
 
 editButton.addEventListener('click', () => {
@@ -30,6 +47,24 @@ deleteButton.addEventListener('click', async () => {
     }
 
     await deleteBook(id);
+
+    location.href = 'index.html';
+});
+
+sellButton.addEventListener('click', async () => {
+    if (!confirm('この本を売却済みにしますか？')) {
+        return;
+    }
+
+    const book = await getBook(id);
+    if (!book) {
+        return;
+    }
+
+    book.sold = true;
+    book.soldAt = Date.now();
+
+    await updateBook(book);
 
     location.href = 'index.html';
 });

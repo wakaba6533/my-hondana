@@ -67,7 +67,7 @@ function renderBooks() {
 
     filteredBooks.forEach((book) => {
         const div = document.createElement('div');
-        div.className = 'book-card';
+        div.className = book.sold ? 'book-card sold' : 'book-card';
         div.dataset.id = book.id;
         div.innerHTML = `
             ${
@@ -77,6 +77,7 @@ function renderBooks() {
             }
             <h3>${book.title}</h3>
             <p>${book.author}</p>
+            ${book.sold ? '<span class="sold-badge">📕 売却済み</span>' : ''}
             <small>${book.publisher ?? ''}</small>
         `;
 

@@ -93,10 +93,14 @@ form.addEventListener('submit', async (event) => {
 
     if (editId) {
         book.id = editId;
+        book.sold = editingBook.sold;
+        book.soldAt = editingBook.soldAt;
         await updateBook(book);
     } else {
         book.id = crypto.randomUUID();
         book.createdAt = Date.now();
+        book.sold = false;
+        book.soldAt = null;
         await createBook(book);
     }
 
