@@ -1,42 +1,33 @@
-let books = [];
-let sortKey = 'createdAt';
-let sortOrder = 'desc';
-let statusFilter = 'owned';
-
-document.getElementById('addButton').addEventListener('click', () => {
+dom.addButton.addEventListener('click', () => {
     location.href = 'add.html';
 });
 
 async function loadBooks() {
-    books = await getBooks();
+    appState.books = await getBooks();
     renderBooks();
 }
 
 function renderBooks() {
-    const list = document.getElementById('bookList');
-    list.innerHTML = '';
-    const keyword = document
-        .getElementById('searchInput')
-        .value.trim()
-        .toLowerCase();
+    dom.bookList.innerHTML = '';
+    const keyword = dom.searchInput.value.trim().toLowerCase();
 
-    const sortedBooks = [...books];
+    const sortedBooks = [...appState.books];
     sortedBooks.sort((a, b) => {
         let result = 0;
-        if (sortKey === 'title') {
+        if (appState.sortKey === 'title') {
             result = (a.title ?? '').localeCompare(b.title ?? '', 'ja');
         }
-        if (sortKey === 'author') {
+        if (appState.sortKey === 'author') {
             result = (a.author ?? '').localeCompare(b.author ?? '', 'ja');
         }
-        if (sortKey === 'createdAt') {
+        if (appState.sortKey === 'createdAt') {
             result = (a.createdAt ?? 0) - (b.createdAt ?? 0);
         }
-        return sortOrder === 'asc' ? result : -result;
+        return appState.sortOrder === 'asc' ? result : -result;
     });
 
-    if (books.length === 0) {
-        list.innerHTML = `
+    if (appState.books.length === 0) {
+        dom.bookList.innerHTML = `
             <p class="empty">
                 まだ本はありません
             </p>
@@ -50,41 +41,51 @@ function renderBooks() {
             book.author?.toLowerCase().includes(keyword) ||
             book.isbn?.includes(keyword);
         const matchesStatus =
-            statusFilter === 'all' ||
-            (statusFilter === 'owned' && !book.sold) ||
-            (statusFilter === 'sold' && book.sold);
+            appState.statusFilter === 'all' ||
+            (appState.statusFilter === 'owned' && !book.sold) ||
+            (appState.statusFilter === 'sold' && book.sold);
         return matchesKeyword && matchesStatus;
     });
 
     filteredBooks.forEach((book) => {
-        const div = document.createElement('div');
-        div.className = book.sold ? 'book-row sold' : 'book-row';
-        div.dataset.id = book.id;
-        const createdDate = book.createdAt
-            ? new Date(book.createdAt).toLocaleDateString('ja-JP')
-            : '';
-
-        div.innerHTML = `
-            <div class="status">${book.sold ? '📕' : '📗'}</div>
-            <div class="title">${book.title ?? ''}</div>
-            <div class="author">${book.author ?? ''}</div>
-            <div class="created-date">${createdDate}</div>
-        `;
-
-        div.addEventListener('click', () => {
-            location.href = `detail.html?id=${book.id}`;
-        });
-
-        list.appendChild(div);
+        dom.bookList.appendChild(createBookRow(book));
     });
 }
 
+function createBookRow(book) {
+    const row = document.createElement('div');
+
+    row.className = book.sold ? 'book-row sold' : 'book-row';
+    row.dataset.id = book.id;
+
+    const createdDate = formatDate(book.createdAt);
+
+    row.innerHTML = `
+        <div class="status">${book.sold ? '📕' : '📗'}</div>
+        <div class="title">${book.title ?? ''}</div>
+        <div class="author">${book.author ?? ''}</div>
+        <div class="created-date">${createdDate}</div>
+    `;
+
+    row.addEventListener('click', () => {
+        location.href = `detail.html?id=${book.id}`;
+    });
+
+    return row;
+}
+
+function formatDate(timestamp) {
+    if (!timestamp) {return '';}
+    const date = new Date(timestamp);
+    return `${date.getFullYear() % 100}/${date.getMonth() + 1}/${date.getDate()}`;
+}
+
 function updateSortIndicators() {
-    document.querySelectorAll('.sortable').forEach((header) => {
+    dom.sortableHeaders.forEach((header) => {
         const key = header.dataset.sort;
         const text = header.textContent.replace(/[▲▼]/g, '');
-        if (key === sortKey) {
-            header.textContent = text + (sortOrder === 'asc' ? ' ▲' : ' ▼');
+        if (key === appState.sortKey) {
+            header.textContent = text + (appState.sortOrder === 'asc' ? ' ▲' : ' ▼');
         } else {
             header.textContent = text;
         }
@@ -92,45 +93,43 @@ function updateSortIndicators() {
 }
 
 function updateStatusIndicator() {
-    const statusHeader = document.getElementById('statusHeader');
-    switch (statusFilter) {
+    switch (appState.statusFilter) {
         case 'owned':
-            statusHeader.textContent = '📗';
+            dom.statusHeader.textContent = '📗';
             break;
         case 'sold':
-            statusHeader.textContent = '📕';
+            dom.statusHeader.textContent = '📕';
             break;
         case 'all':
-            statusHeader.textContent = '📚';
+            dom.statusHeader.textContent = '📚';
             break;
     }
 }
 
-const statusHeader = document.getElementById('statusHeader');
-statusHeader.addEventListener('click', () => {
-    switch (statusFilter) {
+dom.statusHeader.addEventListener('click', () => {
+    switch (appState.statusFilter) {
         case 'owned':
-            statusFilter = 'sold';
+            appState.statusFilter = 'sold';
             break;
         case 'sold':
-            statusFilter = 'all';
+            appState.statusFilter = 'all';
             break;
         default:
-            statusFilter = 'owned';
+            appState.statusFilter = 'owned';
     }
     updateStatusIndicator();
     renderBooks();
 });
 
-document.getElementById('searchInput').addEventListener('input', renderBooks);
-document.querySelectorAll('.sortable').forEach((header) => {
+dom.searchInput.addEventListener('input', renderBooks);
+dom.sortableHeaders.forEach((header) => {
     header.addEventListener('click', () => {
         const key = header.dataset.sort;
-        if (sortKey === key) {
-            sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        if (appState.sortKey === key) {
+            appState.sortOrder = appState.sortOrder === 'asc' ? 'desc' : 'asc';
         } else {
-            sortKey = key;
-            sortOrder = 'asc';
+            appState.sortKey = key;
+            appState.sortOrder = 'asc';
         }
         updateSortIndicators();
         renderBooks();
