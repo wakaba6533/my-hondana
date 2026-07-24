@@ -88,7 +88,8 @@ form.addEventListener('submit', async (event) => {
         author: document.getElementById('author').value,
         publisher: document.getElementById('publisher').value,
         isbn: document.getElementById('isbn').value,
-        thumbnail: document.getElementById('thumbnail').src,
+        thumbnail:
+            document.getElementById('thumbnail').getAttribute('src') || '',
     };
 
     if (editId) {

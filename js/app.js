@@ -85,7 +85,11 @@ function renderBooks() {
 
         div.innerHTML = `
             <div class="thumbnail">
-                ${book.thumbnail ? `<img src="${book.thumbnail}">` : ''}
+                ${
+                    book.thumbnail
+                        ? `<img src="${book.thumbnail}" class="thumb">`
+                        : `<img src="images/no_image.jpg" class="thumb">`
+                }
             </div>
             <div class="title">
                 ${book.title ?? ''}
