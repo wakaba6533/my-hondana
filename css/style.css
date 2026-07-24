@@ -200,7 +200,10 @@ input {
 
 .table-container {
     overflow-x: auto;
-    width: 100%;
+    overflow-y: auto;
+    max-height: 75vh;
+    border: 1px solid #eee;
+    border-radius: 12px;
 }
 
 .book-header {
