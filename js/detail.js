@@ -1,37 +1,39 @@
 const params = new URLSearchParams(location.search);
 const id = params.get('id');
-const editButton = document.getElementById('editButton');
-const deleteButton = document.getElementById('deleteButton');
-const sellButton = document.getElementById('sellButton');
-const backButton = document.getElementById('backButton');
 
 load();
 
 async function load() {
+    sellButton.disabled = false;
+    sellButton.textContent = '📕 売却';
     const book = await getBook(id);
 
-    document.getElementById('title').textContent = book.title;
-    document.getElementById('author').textContent = book.author;
-    document.getElementById('publisher').textContent = book.publisher ?? '';
-    document.getElementById('isbn').textContent = book.isbn;
+    dom.detailTitle.textContent = book.title;
+    dom.detailAuthor.textContent = book.author;
+    dom.detailIsbn.textContent = book.isbn;
 
     if (book.thumbnail) {
-        document.getElementById('thumbnail').src = book.thumbnail;
+        dom.thumbnail.src = book.thumbnail;
+    } else {
+        dom.thumbnail.src = 'images/no_image.jpg';
     }
 
-    const soldInfo = document.getElementById('soldInfo');
     if (book.sold) {
         const date = new Date(book.soldAt);
-        soldInfo.innerHTML = `
-            <p class="sold-badge">
-                📕 売却済み
-            </p>
-            <p>
-                売却日：
-                ${date.toLocaleDateString('ja-JP')}
-            </p>
+        dom.soldInfo.innerHTML = `
+            <div class="detail-row">
+                <span class="label">📕売却済</span>
+                <small>売却日：${date.toLocaleDateString('ja-JP')}</small>
+            </div>
         `;
-        sellButton.style.display = 'none';
+        sellButton.textContent = '💰 売却済';
+        sellButton.disabled = true;
+    } else {
+        dom.soldInfo.innerHTML = `
+            <div class="detail-row">
+                <span class="label">📗所有中</span>
+            </div>
+        `;
     }
 }
 
@@ -42,9 +44,7 @@ editButton.addEventListener('click', () => {
 deleteButton.addEventListener('click', async () => {
     const ok = confirm('この本を削除しますか？');
 
-    if (!ok) {
-        return;
-    }
+    if (!ok) {return;}
 
     await deleteBook(id);
 
@@ -66,7 +66,7 @@ sellButton.addEventListener('click', async () => {
 
     await updateBook(book);
 
-    location.href = 'index.html';
+    load();
 });
 
 backButton.addEventListener('click', () => {

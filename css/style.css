@@ -99,12 +99,6 @@ input {
     font-size: 1rem;
 }
 
-#deleteButton {
-    background: #fff5f5;
-    border-color: #d9534f;
-    color: #b52b27;
-}
-
 #scannerModal {
     display: none;
     position: fixed;
@@ -263,4 +257,97 @@ input {
 
 .sortable:hover {
     background: #fff7e8;
+}
+
+/* ---------- Detail ---------- */
+
+.detail-page {
+    max-width: 420px;
+    margin: auto;
+}
+
+.detail-card,
+.action-card {
+    background: #fffdf6;
+    border: 1px solid #e7dcc8;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.detail-cover {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.detail-cover img {
+    width: 200px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.detail-title {
+    text-align: center;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 0;
+    border-top: 1px solid #eee;
+}
+
+.label {
+    font-size: .85rem;
+    color: #8a6d46;
+    font-weight: 600;
+}
+
+.detail-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.detail-buttons button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: .95rem;
+}
+
+.detail-buttons button:disabled {
+    background: #f3f3f3;
+    color: #999;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+    opacity: 1;
+    box-shadow: none;
+}
+
+#editButton,
+#sellButton {
+    background: #fffdf6;
+    color: #6b5845;
+    border: 1px solid #d8cbb3;
+}
+
+#deleteButton {
+    background: #c86b62;
+    color: white;
+}
+
+.back-button {
+    background: transparent;
+    border: none;
+    color: #8a6d46;
+    margin-top: 12px;
+}
+
+.back-button:hover {
+    background: transparent;
+    text-decoration: underline;
 }

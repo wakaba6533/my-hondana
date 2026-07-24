@@ -4,7 +4,6 @@ dom.form.addEventListener('submit', async (event) => {
     const book = {
         title: dom.title.value,
         author: dom.author.value,
-        publisher: dom.publisher.value,
         isbn: dom.isbn.value,
         thumbnail: dom.thumbnail.getAttribute('src') || '',
     };
@@ -15,14 +14,16 @@ dom.form.addEventListener('submit', async (event) => {
         book.soldAt = appState.editingBook.soldAt;
 
         await updateBook(book);
+
+        location.href = `detail.html?id=${book.id}`;
     } else {
         book.id = crypto.randomUUID();
         book.createdAt = Date.now();
         book.sold = false;
         book.soldAt = null;
-        
-        await createBook(book);
-    }
 
-    location.href = 'index.html';
+        await createBook(book);
+
+        location.href = 'index.html';
+    }
 });

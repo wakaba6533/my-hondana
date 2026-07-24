@@ -9,7 +9,6 @@ async function loadBookInfo(isbn) {
     // 一度表示内容をクリア
     dom.title.value = '';
     dom.author.value = '';
-    dom.publisher.value = '';
     dom.thumbnail.removeAttribute('src');
     dom.thumbnail.style.display = 'none';
 
@@ -37,7 +36,6 @@ async function loadBookInfo(isbn) {
         const info = data.items[0].volumeInfo;
         dom.title.value = info.title ?? '';
         dom.author.value = info.authors?.join(', ') ?? '';
-        dom.publisher.value = info.publisher ?? '';
 
         const thumbnail = info.imageLinks?.thumbnail;
         if (thumbnail) {
