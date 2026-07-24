@@ -58,13 +58,15 @@ function createBookRow(book) {
     row.className = book.sold ? 'book-row sold' : 'book-row';
     row.dataset.id = book.id;
 
-    const createdDate = formatDate(book.createdAt);
+    const displayDate = book.sold
+        ? formatDate(book.soldAt)
+        : formatDate(book.createdAt);
 
     row.innerHTML = `
         <div class="status">${book.sold ? '📕' : '📗'}</div>
         <div class="title">${book.title ?? ''}</div>
         <div class="author">${book.author ?? ''}</div>
-        <div class="created-date">${createdDate}</div>
+        <div class="created-date">${displayDate}</div>
     `;
 
     row.addEventListener('click', () => {
@@ -75,7 +77,6 @@ function createBookRow(book) {
 }
 
 function formatDate(timestamp) {
-    if (!timestamp) {return '';}
     const date = new Date(timestamp);
     return `${date.getFullYear() % 100}/${date.getMonth() + 1}/${date.getDate()}`;
 }
