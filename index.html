@@ -7,8 +7,13 @@
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-        <header>
-            <h1>📚 本棚</h1>
+        <header class="app-header">
+            <h1>My本棚</h1>
+            <div class="add-buttons">
+                <button id="scanButton">❘❙❚❙❘</button>
+                <button id="manualAddButton">✏️</button>
+                <button id="devAddButton">⚒️</button>
+            </div>
         </header>
         <main>
             <div class="toolbar">
@@ -25,15 +30,13 @@
                     <option value="all">すべて</option>
                 </select>
             </div>
-            <button id="scanButton">📷 バーコード読取</button>
-            <button id="devAddButton">🧪 開発用追加</button>
             <div class="table-container">
                 <div class="book-header">
-                    <div>表紙</div>
+                    <div></div>
                     <div>タイトル</div>
-                    <div>作者</div>
+                    <div>著者</div>
                     <div>状態</div>
-                    <div>登録日</div>
+                    <div>更新日</div>
                 </div>
                 <div id="bookList">
                     <p class="empty">まだ本はありません</p>

@@ -5,6 +5,11 @@ document.getElementById('devAddButton').addEventListener('click', () => {
 });
 // 開発用ここまで
 
+const manualAddButton = document.getElementById('manualAddButton');
+manualAddButton.addEventListener('click', () => {
+    location.href = 'add.html';
+});
+
 let books = [];
 const scanButton = document.getElementById('scanButton');
 
