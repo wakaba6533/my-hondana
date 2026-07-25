@@ -19,16 +19,8 @@
             <div class="toolbar">
                 <input type="search" id="searchInput" placeholder="検索" />
             </div>
-            <div class="table-container">
-                <div class="book-header">
-                    <div id="statusHeader" class="status-filter">📗</div>
-                    <div class="sortable" data-sort="title">タイトル</div>
-                    <div class="sortable" data-sort="author">著者</div>
-                    <div class="sortable" data-sort="createdAt">更新日</div>
-                </div>
-                <div id="bookList">
-                    <p class="empty">まだ本はありません</p>
-                </div>
+            <div id="bookList" class="book-grid">
+                <p class="empty">まだ本はありません</p>
             </div>
         </main>
         <script src="js/app-state.js"></script>

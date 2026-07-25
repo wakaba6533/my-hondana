@@ -53,90 +53,41 @@ function renderBooks() {
 }
 
 function createBookRow(book) {
-    const row = document.createElement('div');
-
-    row.className = book.sold ? 'book-row sold' : 'book-row';
-    row.dataset.id = book.id;
-
-    const displayDate = book.sold
-        ? formatDate(book.soldAt)
-        : formatDate(book.createdAt);
-
-    row.innerHTML = `
-        <div class="status">${book.sold ? '📕' : '📗'}</div>
-        <div class="title">${book.title ?? ''}</div>
-        <div class="author">${book.author ?? ''}</div>
-        <div class="created-date">${displayDate}</div>
+    const card = document.createElement('div');
+    card.className = `book-card ${book.sold ? 'sold' : ''}`;
+    const date = book.sold ? book.soldAt : book.createdAt;
+    const dateIcon = book.sold ? '💰' : '📅';
+    const displayDate = date ? formatDate(date) : '';
+    
+    card.innerHTML = `
+        <div class="book-thumbnail">
+            <img
+                src="${book.thumbnail || 'images/no_image.jpg'}"
+                alt="${book.title ?? ''}"
+            >
+        </div>
+        <div class="book-info">
+            <div class="book-title">${book.title ?? ''}</div>
+            <div class="book-author">👤 ${book.author ?? ''}</div>
+            <div class="book-meta">
+                <div class="book-status ${book.sold ? 'sold' : 'owned'}">
+                    ${book.sold ? '📕 売却済' : '📗 所有中'}
+                </div>
+                <div class="book-date">${dateIcon} ${displayDate}</div>
+            </div>
+        </div>
     `;
 
-    row.addEventListener('click', () => {
+    card.addEventListener('click', () => {
         location.href = `detail.html?id=${book.id}`;
     });
 
-    return row;
+    return card;
 }
 
 function formatDate(timestamp) {
-    const date = new Date(timestamp);
-    return `${date.getFullYear() % 100}/${date.getMonth() + 1}/${date.getDate()}`;
+    return new Date(timestamp).toLocaleDateString('ja-JP');
 }
-
-function updateSortIndicators() {
-    dom.sortableHeaders.forEach((header) => {
-        const key = header.dataset.sort;
-        const text = header.textContent.replace(/[▲▼]/g, '');
-        if (key === appState.sortKey) {
-            header.textContent = text + (appState.sortOrder === 'asc' ? ' ▲' : ' ▼');
-        } else {
-            header.textContent = text;
-        }
-    });
-}
-
-function updateStatusIndicator() {
-    switch (appState.statusFilter) {
-        case 'owned':
-            dom.statusHeader.textContent = '📗';
-            break;
-        case 'sold':
-            dom.statusHeader.textContent = '📕';
-            break;
-        case 'all':
-            dom.statusHeader.textContent = '📚';
-            break;
-    }
-}
-
-dom.statusHeader.addEventListener('click', () => {
-    switch (appState.statusFilter) {
-        case 'owned':
-            appState.statusFilter = 'sold';
-            break;
-        case 'sold':
-            appState.statusFilter = 'all';
-            break;
-        default:
-            appState.statusFilter = 'owned';
-    }
-    updateStatusIndicator();
-    renderBooks();
-});
 
 dom.searchInput.addEventListener('input', renderBooks);
-dom.sortableHeaders.forEach((header) => {
-    header.addEventListener('click', () => {
-        const key = header.dataset.sort;
-        if (appState.sortKey === key) {
-            appState.sortOrder = appState.sortOrder === 'asc' ? 'desc' : 'asc';
-        } else {
-            appState.sortKey = key;
-            appState.sortOrder = 'asc';
-        }
-        updateSortIndicators();
-        renderBooks();
-    });
-});
-
-updateSortIndicators();
-updateStatusIndicator();
 loadBooks();
