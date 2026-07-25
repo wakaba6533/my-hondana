@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-bookshelf-v1';
+const CACHE_NAME = 'my-bookshelf-v2';
 
 const FILES_TO_CACHE = [
     './',
@@ -26,13 +26,29 @@ self.addEventListener('install', (event) => {
             return cache.addAll(FILES_TO_CACHE);
         }),
     );
+    self.skipWaiting();
 });
 
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        }),
+        fetch(event.request).catch(() => caches.match(event.request)),
+    );
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        Promise.all([
+            caches.keys().then((keys) =>
+                Promise.all(
+                    keys.map((key) => {
+                        if (key !== CACHE_NAME) {
+                            return caches.delete(key);
+                        }
+                    }),
+                ),
+            ),
+            self.clients.claim(),
+        ]),
     );
 });
