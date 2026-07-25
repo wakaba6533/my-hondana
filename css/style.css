@@ -315,10 +315,20 @@ input {
 }
 
 .series-card {
-    padding: 14px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    background: #fffdf6;
+    position: relative;
+}
+
+.series-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(184, 140, 90, .9);
+    color: white;
+    font-size: .7rem;
+    font-weight: bold;
+    z-index: 10;
 }
 
 /* ---------- Detail ---------- */

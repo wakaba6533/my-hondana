@@ -48,46 +48,104 @@ function renderBooks() {
         return matchesKeyword && matchesStatus;
     });
 
-    filteredBooks.forEach((book) => {
-        dom.bookList.appendChild(createBookRow(book));
+    const displayItems = createDisplayItems(filteredBooks);
+    displayItems.forEach((item) => {
+        if (item.type === 'book') {
+            dom.bookList.appendChild(
+                createBookCard(item.book),
+            );
+        } else {
+            dom.bookList.appendChild(
+                createSeriesCard(item),
+            );
+        }
     });
 }
 
-function createBookRow(book) {
+function createSeriesCard(item) {
     const card = document.createElement('div');
-    card.className = `book-card ${book.sold ? 'sold' : ''}`;
-    const date = book.sold ? book.soldAt : book.createdAt;
-    const dateIcon = book.sold ? '💰' : '📅';
-    const displayDate = date ? formatDate(date) : '';
-    
+    card.className = 'book-card series-card';
+
+    // 最古巻
+    const firstBook = [...item.books].sort((a, b) => {
+        const aDate = a.createdAt ?? 0;
+        const bDate = b.createdAt ?? 0;
+        return aDate - bDate;
+    })[0];
+
+    const thumbnail =
+        firstBook.thumbnail || 'images/no_image.jpg';
+
+    const latestUpdate = [...item.books].sort((a, b) => {
+        const aDate = a.sold ? a.soldAt : a.createdAt;
+        const bDate = b.sold ? b.soldAt : b.createdAt;
+        return bDate - aDate;
+    })[0];
+
+    const date = latestUpdate.sold
+        ? latestUpdate.soldAt
+        : latestUpdate.createdAt;
+
+    const displayDate = date
+        ? new Date(date).toLocaleDateString('ja-JP')
+        : '';
+
     card.innerHTML = `
+        <div class="series-badge">SERIES</div>
         <div class="book-thumbnail">
-            <img
-                src="${book.thumbnail || 'images/no_image.jpg'}"
-                alt="${book.title ?? ''}"
-            >
+            <img src="${thumbnail}">
         </div>
         <div class="book-info">
-            <div class="book-title">${book.title ?? ''}</div>
-            <div class="book-author">👤 ${book.author ?? ''}</div>
+            <div class="book-title">${item.series.name}</div>
+            <div class="book-author">👤 ${firstBook.author ?? ''}</div>
             <div class="book-meta">
-                <div class="book-status ${book.sold ? 'sold' : 'owned'}">
-                    ${book.sold ? '📕 売却済' : '📗 所有中'}
-                </div>
-                <div class="book-date">${dateIcon} ${displayDate}</div>
+                <div class="book-status">📚 ${item.books.length}冊</div>
+                <div class="book-date">📅 ${displayDate}</div>
             </div>
         </div>
     `;
 
     card.addEventListener('click', () => {
-        location.href = `detail.html?id=${book.id}`;
+        location.href = `series.html?id=${item.series.id}`;
     });
 
     return card;
 }
 
-function formatDate(timestamp) {
-    return new Date(timestamp).toLocaleDateString('ja-JP');
+function createDisplayItems(books) {
+    const items = [];
+
+    const grouped = new Map();
+
+    books.forEach((book) => {
+        if (!book.seriesId) {
+            items.push({
+                type: 'book',
+                book,
+            });
+            return;
+        }
+
+        if (!grouped.has(book.seriesId)) {
+            grouped.set(book.seriesId, []);
+        }
+
+        grouped.get(book.seriesId).push(book);
+    });
+
+    grouped.forEach((books, seriesId) => {
+        const series = appState.series.find(
+            (s) => s.id === seriesId,
+        );
+
+        items.push({
+            type: 'series',
+            series,
+            books,
+        });
+    });
+
+    return items;
 }
 
 function getSeriesName(book) {

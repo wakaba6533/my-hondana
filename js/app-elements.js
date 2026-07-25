@@ -30,6 +30,11 @@ const dom = {
     sellButton: document.getElementById('sellButton'),
     deleteButton: document.getElementById('deleteButton'),
     backButton: document.getElementById('backButton'),
+
+    // series.html
+    seriesTitle: document.getElementById('seriesTitle'),
+    seriesInfo: document.getElementById('seriesInfo'),
+    seriesBooks: document.getElementById('seriesBooks'),
 };
 
 window.dom = dom;
