@@ -18,6 +18,7 @@ async function loadBook(id) {
     dom.title.value = book.title;
     dom.author.value = book.author;
     dom.isbn.value = book.isbn;
+    dom.series.value = book.series ?? '';
     if (book.thumbnail) {
         const img = dom.thumbnail;
         img.src = book.thumbnail;

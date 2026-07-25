@@ -266,7 +266,7 @@ input {
 }
 
 .book-thumbnail {
-    height: 180px;
+    height: 150px;
     overflow: hidden;
     background: #f3f3f3;
 }
@@ -290,6 +290,35 @@ input {
 .book-date {
     color: #777;
     font-size: .9rem;
+}
+
+.series-section {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+#seriesMessage {
+    display: block;
+    margin-top: 6px;
+    font-size: .85rem;
+    color: #777;
+}
+
+.series-title {
+    font-size: .9rem;
+    color: #8a6d46;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.series-card {
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fffdf6;
 }
 
 /* ---------- Detail ---------- */

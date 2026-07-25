@@ -4,6 +4,7 @@ dom.addButton.addEventListener('click', () => {
 
 async function loadBooks() {
     appState.books = await getBooks();
+    appState.series = await getSeries();
     renderBooks();
 }
 
@@ -87,6 +88,15 @@ function createBookRow(book) {
 
 function formatDate(timestamp) {
     return new Date(timestamp).toLocaleDateString('ja-JP');
+}
+
+function getSeriesName(book) {
+    if (!book.seriesId) {return '';}
+    return (
+        appState.series.find(
+            (series) => series.id === book.seriesId,
+        )?.name ?? ''
+    );
 }
 
 dom.searchInput.addEventListener('input', renderBooks);

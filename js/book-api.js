@@ -37,6 +37,23 @@ async function loadBookInfo(isbn) {
         dom.title.value = info.title ?? '';
         dom.author.value = info.authors?.join(', ') ?? '';
 
+        const candidate = guessSeriesName(info.title);
+        dom.series.value = candidate;
+        if (!candidate) {
+            dom.seriesMessage.textContent = '';
+            return;
+        }
+        const series = (await getSeries()).find(
+            (s) => s.name === candidate,
+        );
+        if (series) {
+            dom.seriesMessage.textContent =
+                '💡既存シリーズに追加されます';
+        } else {
+            dom.seriesMessage.textContent =
+                '💡新しいシリーズになります';
+        }
+
         const thumbnail = info.imageLinks?.thumbnail;
         if (thumbnail) {
             dom.thumbnail.src = thumbnail;

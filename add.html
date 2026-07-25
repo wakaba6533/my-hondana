@@ -38,6 +38,15 @@
                         <button type="button" id="fetchButton">🔍</button>
                     </div>
                 </label>
+                <label>
+                    シリーズ
+                    <input id="series">
+                </label>
+                <small id="seriesMessage"></small>
+                <div id="seriesSection" class="series-section hidden">
+                    <div class="series-title">シリーズ候補</div>
+                    <div id="seriesCandidate"></div>
+                </div>
                 <img
                     id="thumbnail"
                     src=""
@@ -54,6 +63,7 @@
         <script src="js/db.js"></script>
         <script src="js/app-elements.js"></script>
 
+        <script src="js/series.js"></script>
         <script src="js/book-api.js"></script>
         <script src="js/scanner.js"></script>
         <script src="js/add-form.js"></script>

@@ -8,6 +8,9 @@ const appState = {
     // add.html
     editId: null,
     editingBook: null,
+
+    // シリーズ
+    series: [],
 };
 
 window.appState = appState;

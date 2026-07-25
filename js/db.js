@@ -1,6 +1,7 @@
 const DB_NAME = 'bookshelf-db';
 const STORE_NAME = 'books';
-const DB_VERSION = 1;
+const SERIES_STORE_NAME = 'series';
+const DB_VERSION = 2;
 
 function openDatabase() {
     return new Promise((resolve, reject) => {
@@ -11,6 +12,12 @@ function openDatabase() {
 
             if (!db.objectStoreNames.contains(STORE_NAME)) {
                 db.createObjectStore(STORE_NAME, {
+                    keyPath: 'id',
+                });
+            }
+
+            if (!db.objectStoreNames.contains(SERIES_STORE_NAME)) {
+                db.createObjectStore(SERIES_STORE_NAME, {
                     keyPath: 'id',
                 });
             }
@@ -61,8 +68,8 @@ async function updateBook(book) {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
-        const tx = db.transaction('books', 'readwrite');
-        const store = tx.objectStore('books');
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
         const request = store.put(book);
 
         request.onsuccess = () => resolve();
@@ -77,6 +84,67 @@ async function deleteBook(id) {
         const tx = db.transaction(STORE_NAME, 'readwrite');
 
         tx.objectStore(STORE_NAME).delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+
+async function getSeries() {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(SERIES_STORE_NAME, 'readonly');
+        const request = tx.objectStore(SERIES_STORE_NAME).getAll();
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function getSeriesById(id) {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(SERIES_STORE_NAME, 'readonly');
+        const request = tx.objectStore(SERIES_STORE_NAME).get(id);
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function getSeriesByName(name) {
+    const seriesList = await getSeries();
+
+    return seriesList.find((series) => series.name === name) ?? null;
+}
+
+async function createSeries(series) {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(SERIES_STORE_NAME, 'readwrite');
+
+        tx.objectStore(SERIES_STORE_NAME).put(series);
+
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+async function updateSeries(series) {
+    return createSeries(series);
+}
+
+async function deleteSeries(id) {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(SERIES_STORE_NAME, 'readwrite');
+
+        tx.objectStore(SERIES_STORE_NAME).delete(id);
+
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
     });

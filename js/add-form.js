@@ -17,8 +17,26 @@ dom.form.addEventListener('submit', async (event) => {
             title: dom.title.value,
             author: dom.author.value,
             isbn: dom.isbn.value,
+            seriesId: null,
             thumbnail: dom.thumbnail.getAttribute('src') || '',
         };
+    
+    const seriesName = dom.series.value.trim();
+    if (seriesName) {
+        let series = await getSeriesByName(seriesName);
+        if (!series) {
+            series = {
+                id: crypto.randomUUID(),
+                name: seriesName,
+                createdAt: Date.now(),
+            };
+
+            await createSeries(series);
+        }
+        book.seriesId = series.id;
+    } else {
+        book.seriesId = null;
+    }
 
     if (appState.editId) {
         await updateBook(book);
