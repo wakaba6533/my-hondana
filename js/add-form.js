@@ -40,7 +40,7 @@ dom.form.addEventListener('submit', async (event) => {
 
     if (appState.editId) {
         await updateBook(book);
-        location.href = `detail.html?id=${book.id}`;
+        openDetailPage(book.id);
     } else {
         await createBook(book);
         location.href = 'index.html';

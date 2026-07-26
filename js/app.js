@@ -106,7 +106,7 @@ function createSeriesCard(item) {
     `;
 
     card.addEventListener('click', () => {
-        location.href = `series.html?id=${item.series.id}`;
+        openSeriesPage(item.series.id);
     });
 
     return card;

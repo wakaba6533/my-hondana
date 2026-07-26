@@ -25,7 +25,7 @@ function createBookCard(book) {
     `;
 
     card.addEventListener('click', () => {
-        location.href = `detail.html?id=${book.id}`;
+        openDetailPage(book.id);
     });
 
     return card;

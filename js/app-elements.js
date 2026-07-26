@@ -3,6 +3,8 @@ const dom = {
     addButton: document.getElementById('addButton'),
     bookList: document.getElementById('bookList'),
     searchInput: document.getElementById('searchInput'),
+    seriesPage: document.getElementById('seriesPage'),
+    detailPage: document.getElementById('detailPage'),
 
     // add.html
     form: document.getElementById('bookForm'),
