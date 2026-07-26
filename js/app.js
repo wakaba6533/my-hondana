@@ -1,6 +1,23 @@
-dom.addButton.addEventListener('click', () => {
-    location.href = 'add.html';
-});
+function setupLayout(){
+    dom.topPage.insertAdjacentHTML(
+        'afterbegin',
+        createHeader({search:true,sort:true,filter:true})
+    );
+    dom.appFooter.innerHTML = createFooter();
+    dom.searchInput.addEventListener('input', renderBooks);
+    document
+        .getElementById('footerAddButton')
+        .addEventListener('click', () => {
+            openAddPage();
+        });
+    document
+        .getElementById('footerListButton')
+        .addEventListener('click', () => {
+            backPage();
+        });
+    setupHeaderEvents(dom.topPage);
+}
+setupLayout();
 
 async function loadBooks() {
     appState.books = await getBooks();
@@ -157,5 +174,4 @@ function getSeriesName(book) {
     );
 }
 
-dom.searchInput.addEventListener('input', renderBooks);
 loadBooks();

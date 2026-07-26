@@ -4,10 +4,6 @@ async function openDetailPage(id) {
     if (!book) {return;}
 
     page.innerHTML = `
-        <header class="page-header">
-            <button class="page-back-button">‹</button>
-            <h1>詳細</h1>
-        </header>
         <main class="detail-page">
             <div class="detail-card">
                 <div class="detail-cover">
@@ -45,6 +41,11 @@ async function openDetailPage(id) {
             </div>
         </main>
     `;
+
+    page.insertAdjacentHTML(
+        'afterbegin',
+        createHeader({back:true})
+    );
 
     openPage(page);
 
@@ -91,7 +92,7 @@ async function openDetailPage(id) {
         await deleteBook(book.id);
         backPage();
     });
-    page.querySelector('.page-back-button').addEventListener('click', () => {
+    page.querySelector('.header-back-button').addEventListener('click', () => {
         backPage();
     });
 }

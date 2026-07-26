@@ -4,17 +4,6 @@
     box-sizing: border-box;
 }
 
-.app-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.app-header h1 {
-    margin: 0;
-}
-
 .add-buttons {
     position: absolute;
     right: 16px;
@@ -435,6 +424,8 @@ input {
 
 .page {
     position: absolute;
+    padding-top:60px;
+    padding-bottom:64px;
     inset: 0;
     width: 100%;
     max-width: 100vw;
@@ -473,15 +464,102 @@ input {
     font-size: 1.4rem;
 }
 
-.page-back-button {
-    position: absolute;
-    left: 12px;
-    width: 40px;
-    height: 40px;
+/* ---------- Common Layout ---------- */
+
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #fffdf6;
+    border-bottom: 1px solid #e7dcc8;
+    z-index: 100;
+}
+
+.header-search {
+    flex: 1;
+    min-width: 0;
+    margin-left: 8px;
+}
+
+.header-search input {
+    width: 100%;
+}
+
+.header-icon-button,
+.header-back-button {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
     padding: 0;
+    border-radius: 50%;
     border: none;
     background: transparent;
-    font-size: 36px;
-    line-height: 1;
+    font-size: 1.2rem;
+}
+
+.header-back-button {
+    font-size: 1.8rem;
+    flex: 0 0 44px;
+}
+
+.app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    background: #fffdf6;
+    border-top: 1px solid #e7dcc8;
+    z-index: 100;
+}
+
+.app-footer button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
     color: #8a6d46;
+    font-size: 0.8rem;
+}
+
+.header-menu {
+    position: absolute;
+    top: 60px;
+    right: 16px;
+    background: #fffdf6;
+    border: 1px solid #e7dcc8;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    padding: 8px;
+    display: none;
+    z-index: 200;
+}
+
+.header-menu.show {
+    display: block;
+}
+
+.header-menu button {
+    display: block;
+    width: 140px;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    color: #333;
+}
+
+.header-menu button:hover {
+    background: #f5ead8;
 }

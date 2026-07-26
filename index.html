@@ -11,28 +11,12 @@
     <body>
         <div id="app">
             <!-- 本棚画面 -->
-            <section class="page page-home active">
-                <header class="app-header">
-                    <h1>My本棚</h1>
-
-                    <div class="add-buttons">
-                        <button id="addButton">＋</button>
-                    </div>
-                </header>
+            <section class="page page-home active" id="topPage">
                 <main>
-                    <div class="toolbar">
-                        <input
-                            type="search"
-                            id="searchInput"
-                            placeholder="検索"
-                        />
-                    </div>
-                    <div id="bookList" class="book-grid">
-                        <p class="empty">
-                            まだ本はありません
-                        </p>
-                    </div>
+                    <div id="bookList" class="book-grid"></div>
                 </main>
+
+                <div id="appFooter"></div>
             </section>
 
             <!-- シリーズ画面 -->
@@ -45,12 +29,14 @@
         </div>
         <script src="js/app-state.js"></script>
         <script src="js/db.js"></script>
+        <script src="js/layout.js"></script>
         <script src="js/app-elements.js"></script>
 
         <script src="js/page-router.js"></script>
         <script src="js/book-card.js"></script>
         <script src="js/series-page.js"></script>
         <script src="js/detail-page.js"></script>
+        <script src="js/header.js"></script>
         <script src="js/app.js"></script>
         <script src="js/pwa.js"></script>
     </body>
