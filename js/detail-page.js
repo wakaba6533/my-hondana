@@ -58,7 +58,7 @@ async function openDetailPage(id) {
     }
 
     editButton.addEventListener('click', () => {
-        location.href = `add.html?id=${book.id}`;
+        openAddPage(book.id);
     });
     sellButton.addEventListener('click', async () => {
         if (book.sold) {return;}

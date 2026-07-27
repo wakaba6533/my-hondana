@@ -175,3 +175,4 @@ function getSeriesName(book) {
 }
 
 loadBooks();
+window.getSeriesName = getSeriesName;

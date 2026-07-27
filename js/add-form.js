@@ -1,27 +1,35 @@
-dom.form.addEventListener('submit', async (event) => {
+async function handleAddSubmit(event) {
     event.preventDefault();
-
+    const page = dom.addPage;
     const book = appState.editId
         ? {
             ...appState.editingBook,
-            title: dom.title.value,
-            author: dom.author.value,
-            isbn: dom.isbn.value,
-            thumbnail: dom.thumbnail.getAttribute('src') || '',
+            title: page.querySelector('#title').value,
+            author: page.querySelector('#author').value,
+            isbn: page.querySelector('#isbn').value,
+            thumbnail:
+                page.querySelector('#thumbnail')
+                    .getAttribute('src') || '',
         }
         : {
             id: crypto.randomUUID(),
             createdAt: Date.now(),
             sold: false,
             soldAt: null,
-            title: dom.title.value,
-            author: dom.author.value,
-            isbn: dom.isbn.value,
+            title: page.querySelector('#title').value,
+            author: page.querySelector('#author').value,
+            isbn: page.querySelector('#isbn').value,
             seriesId: null,
-            thumbnail: dom.thumbnail.getAttribute('src') || '',
+            thumbnail:
+                page.querySelector('#thumbnail')
+                    .getAttribute('src') || '',
         };
-    
-    const seriesName = dom.series.value.trim();
+
+    const seriesName =
+        page.querySelector('#series')
+            .value
+            .trim();
+
     if (seriesName) {
         let series = await getSeriesByName(seriesName);
         if (!series) {
@@ -30,7 +38,6 @@ dom.form.addEventListener('submit', async (event) => {
                 name: seriesName,
                 createdAt: Date.now(),
             };
-
             await createSeries(series);
         }
         book.seriesId = series.id;
@@ -40,9 +47,22 @@ dom.form.addEventListener('submit', async (event) => {
 
     if (appState.editId) {
         await updateBook(book);
+        appState.editId = null;
+        appState.editingBook = null;
         openDetailPage(book.id);
     } else {
         await createBook(book);
-        location.href = 'index.html';
+        appState.editId = null;
+        appState.editingBook = null;
+        alert('登録しました');
+        
+        page.querySelector('#bookForm').reset();
+        const thumbnail = page.querySelector('#thumbnail');
+        thumbnail.removeAttribute('src');
+        thumbnail.style.display = 'none';
+        page.querySelector('#seriesMessage').textContent = '';
+        appState.lastFetchedIsbn = '';
     }
-});
+}
+
+window.handleAddSubmit = handleAddSubmit;

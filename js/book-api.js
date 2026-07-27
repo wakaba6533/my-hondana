@@ -1,5 +1,18 @@
 const API_KEY = 'AIzaSyD9etPxFIGVsh0l-PlBsh_2ECI1zczvgZ4';
 
+function getAddDom() {
+    const page = dom.addPage;
+
+    return {
+        title: page.querySelector('#title'),
+        author: page.querySelector('#author'),
+        isbn: page.querySelector('#isbn'),
+        series: page.querySelector('#series'),
+        seriesMessage: page.querySelector('#seriesMessage'),
+        thumbnail: page.querySelector('#thumbnail'),
+    };
+}
+
 async function loadBookInfo(isbn) {
     isbn = isbn.trim();
     if (!isbn) {return;}
@@ -7,10 +20,11 @@ async function loadBookInfo(isbn) {
     appState.lastFetchedIsbn = isbn;
 
     // 一度表示内容をクリア
-    dom.title.value = '';
-    dom.author.value = '';
-    dom.thumbnail.removeAttribute('src');
-    dom.thumbnail.style.display = 'none';
+    const addDom = getAddDom();
+    addDom.title.value = '';
+    addDom.author.value = '';
+    addDom.thumbnail.removeAttribute('src');
+    addDom.thumbnail.style.display = 'none';
 
     try {
         const response = await fetch(
@@ -34,30 +48,30 @@ async function loadBookInfo(isbn) {
         }
 
         const info = data.items[0].volumeInfo;
-        dom.title.value = info.title ?? '';
-        dom.author.value = info.authors?.join(', ') ?? '';
+        addDom.title.value = info.title ?? '';
+        addDom.author.value = info.authors?.join(', ') ?? '';
 
         const candidate = guessSeriesName(info.title);
-        dom.series.value = candidate;
+        addDom.series.value = candidate;
         if (!candidate) {
-            dom.seriesMessage.textContent = '';
+            addDom.seriesMessage.textContent = '';
             return;
         }
         const series = (await getSeries()).find(
             (s) => s.name === candidate,
         );
         if (series) {
-            dom.seriesMessage.textContent =
+            addDom.seriesMessage.textContent =
                 '💡既存シリーズに追加されます';
         } else {
-            dom.seriesMessage.textContent =
+            addDom.seriesMessage.textContent =
                 '💡新しいシリーズになります';
         }
 
         const thumbnail = info.imageLinks?.thumbnail;
         if (thumbnail) {
-            dom.thumbnail.src = thumbnail;
-            dom.thumbnail.style.display = 'block';
+            addDom.thumbnail.src = thumbnail;
+            addDom.thumbnail.style.display = 'block';
         }
     } catch (error) {
         appState.lastFetchedIsbn = '';

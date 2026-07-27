@@ -1,7 +1,13 @@
 let html5QrCode = null;
 
 async function startScanner() {
-    dom.scannerModal.classList.add('show');
+    const page = dom.addPage;
+
+    const modal =
+        page.querySelector('#scannerModal');
+
+    modal.classList.add('show');
+
     html5QrCode = new Html5Qrcode('reader');
 
     await html5QrCode.start(
@@ -12,7 +18,10 @@ async function startScanner() {
 }
 
 async function onScanSuccess(decodedText) {
-    dom.isbn.value = decodedText;
+    const page = dom.addPage;
+
+    page.querySelector('#isbn')
+        .value = decodedText;
 
     await stopScanner();
 
@@ -30,5 +39,14 @@ async function stopScanner() {
             html5QrCode = null;
         }
     }
-    dom.scannerModal.classList.remove('show');
+
+    const modal =
+        dom.addPage.querySelector('#scannerModal');
+
+    if (modal) {
+        modal.classList.remove('show');
+    }
 }
+
+window.startScanner = startScanner;
+window.stopScanner = stopScanner;

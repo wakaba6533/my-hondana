@@ -438,6 +438,10 @@ input {
     z-index: 0;
 }
 
+.page.instant {
+    transition: none;
+}
+
 .page.active {
     transform: translateX(0);
     z-index: 2;

@@ -5,7 +5,7 @@ const appState = {
     sortOrder: 'desc',
     statusFilter: 'owned',
 
-    // add.html
+    // 登録画面
     editId: null,
     editingBook: null,
 
